@@ -3,6 +3,10 @@
 const autoprefixer = require('autoprefixer');
 const path = require('path');
 const webpack = require('webpack');
+/*
+ html-webpack-plugin插件，webpack中生成HTML的插件，
+ 具体可以去这里查看https://www.npmjs.com/package/html-webpack-plugin
+ */
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
@@ -11,6 +15,11 @@ const eslintFormatter = require('react-dev-utils/eslintFormatter');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const getClientEnvironment = require('./env');
 const paths = require('./paths');
+
+/*
+ 一个根据模式匹配获取文件列表的node模块。
+ 有关glob的详细用法可以在这里看到——https://github.com/isaacs/node-glob
+ */
 const glob = require('glob');
 
 
@@ -25,7 +34,6 @@ const publicUrl = '';
 const env = getClientEnvironment(publicUrl);
 //通过getEntry函数获取所有js脚本
 let jsEntries = getEntry('./src/*.js');
-console.log(jsEntries)
 // This is the development configuration.
 // It is focused on developer experience and fast rebuilds.
 // The production configuration is different and lives in a separate file.
@@ -33,23 +41,23 @@ let config = {
   // You may want 'eval' instead if you prefer to see the compiled output in DevTools.
   // See the discussion in https://github.com/facebookincubator/create-react-app/issues/343.
   devtool: 'cheap-module-source-map',
-  // These are the "entry points" to our application.
-  // This means they will be the "root" imports that are included in JS bundle.
-  // The first two entry points enable "hot" CSS and auto-refreshes for JS.
+
+  //入口文件
   entry:jsEntries
-  // {
-  //   index: [
-  //     require.resolve('./polyfills'),
-  //     require.resolve('react-dev-utils/webpackHotDevClient'),
-  //     paths.appIndexJs,
-  //   ],
-  //   admin: [
-  //     require.resolve('./polyfills'),
-  //     require.resolve('react-dev-utils/webpackHotDevClient'),
-  //     paths.appSrc + "/admin.js",
-  //   ]
-  // }
+/*  {
+    index: [
+      require.resolve('./polyfills'),
+      require.resolve('react-dev-utils/webpackHotDevClient'),
+      paths.appIndexJs,
+    ],
+    admin: [
+      require.resolve('./polyfills'),
+      require.resolve('react-dev-utils/webpackHotDevClient'),
+      paths.appSrc + "/admin.js",
+    ]
+  }*/
   ,
+  //出口文件
   output: {
     // Add /* filename */ comments to generated require()s in the output.
     pathinfo: true,
@@ -214,8 +222,8 @@ let config = {
     // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
     // In development, this will be an empty string.
     new InterpolateHtmlPlugin(env.raw),
-    // Generates an `index.html` file with the <script> injected.
-    //多少个页面就new 多少个 HtmlWebpackPlugin 并且在每一个里面的chunks都需要和上面的entry中的key匹配，例如上面entry中有index和admin这两个。这里的chunks也需要是index和admin
+
+    // 生成html文件
     /*new HtmlWebpackPlugin({
       inject: true,
       chunks: ["index"],
@@ -267,7 +275,7 @@ let config = {
   },
 };
 
-let tplPages = Object.keys(getEntry('./src/*.js'));
+let tplPages = Object.keys(jsEntries);
 tplPages.forEach((pathname)=> {
   let conf = {
     inject: true,
@@ -284,21 +292,19 @@ function getEntry(globPath) {
   //获取globPath路径下的所有文件
   let files = glob.sync(globPath);
   let entries = {},
-      entry, dirname, basename, pathname, extname;
+      entry, basename, extname;
   //循环
   for (let i = 0; i < files.length; i++) {
       entry = files[i];
-      dirname = path.dirname(entry);//返回路径的所在的文件夹名称
-      extname = path.extname(entry);//返回指定文件名的扩展名称
-      /**
+      extname = path.extname(entry);//返回指定文件名的扩展名称,.js
+    /**
        * path.basename(p, [ext])
        * 返回指定的文件名，返回结果可排除[ext]后缀字符串
        * path.basename('/foo/bar/baz/asdf/quux.html', '.html')=>quux
        */
-      basename = path.basename(entry, extname);
-      pathname = path.join(dirname, basename);//路径合并
-      entries[basename] = entry;
+      basename = path.basename(entry, extname);//index等
+      entries[basename] = entry;//{ admin: './src/admin.js', index: './src/index.js' }
   }
-  //返回map=>{fileName:fileUrl}
   return entries;
+
 }
