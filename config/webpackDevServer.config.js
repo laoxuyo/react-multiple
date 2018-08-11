@@ -78,9 +78,16 @@ module.exports = function(proxy, allowedHost) {
       // Paths with dots should still use the history fallback.
       // See https://github.com/facebookincubator/create-react-app/issues/387.
       disableDotRule: true,
-      // 指明哪些路径映射到哪个html
+      // 指明哪些路径映射到哪个HTML文件
       rewrites: [
         { from: /^\/admin.html/, to: '/build/admin.html' },
+        { from: /^\/tile.html/, to: '/build/tile.html' },
+        { from: /^\/curveLine.html/, to: '/build/curveLine.html' },
+        { from: /^\/distanceTool.html/, to: '/build/distanceTool.html' },
+        { from: /^\/trafficControl.html/, to: '/build/trafficControl.html' },
+        { from: /^\/heatmap.html/, to: '/build/heatmap.html' },
+        { from: /^\/drawingManager.html/, to: '/build/drawingManager.html' },
+
       ]
     },
     public: allowedHost,

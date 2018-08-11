@@ -64,6 +64,10 @@ module.exports = {
     admin: [
       require.resolve('./polyfills'),
       paths.appSrc + '/admin.js'
+    ],
+    navigation: [
+      require.resolve('./polyfills'),
+      paths.appSrc + '/navigation.js'
     ]
   },
   output: {
@@ -273,6 +277,24 @@ module.exports = {
       chunks:["admin"],
       template: paths.appHtml,
       filename:'admin.html',
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeRedundantAttributes: true,
+        useShortDoctype: true,
+        removeEmptyAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        keepClosingSlash: true,
+        minifyJS: true,
+        minifyCSS: true,
+        minifyURLs: true,
+      }
+    }),
+    new HtmlWebpackPlugin({
+      inject: true,
+      chunks:["navigation"],
+      template: paths.appHtml,
+      filename:'navigation.html',
       minify: {
         removeComments: true,
         collapseWhitespace: true,
