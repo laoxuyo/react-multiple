@@ -1,67 +1,86 @@
 import React,{Component} from 'react';
 import ReactDOM from 'react-dom';
-import { Map, Tile } from 'rc-bmap';
+import { Map, CurveLine } from 'rc-bmap';
+import './style.css'
 
 class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-        zoom: 16,
-        zIndex: 0,
+        points: [
+          { lng: 116.432045, lat: 39.910683 },
+          { lng: 120.129721, lat: 30.314429 },
+          { lng: 121.491121, lat: 25.127053 },
+        ],
+        zoom: 5,
         center: {
-          lng: 116.332782,
-          lat: 40.007978,
+          lng: 120.129721,
+          lat: 30.314429,
         },
-        copyright: {
-           id: 1, 
-           content: '版权信息', 
-        },
+        strokeColor: "blue",
+        strokeWeight: 3,
+        strokeOpacity: 0.6 ,
+        events: {
+          click() {
+            console.log('CurveLine click')
+          }
+        }
     }
   }
- getTilesUrl = (tileCoord, zoom) => {
-    const x = tileCoord.x;
-    const y = tileCoord.y;
-    //根据当前坐标，选取合适的瓦片图
-    return 'http://lbsyun.baidu.com/jsdemo/demo/tiles/' + zoom + '/tile' + x + '_' + y + '.png';  
-  };
-  handleZoom = () => {
+
+  handlePoints = () => {
     this.setState({
-      zoom:14,
+      points:[
+        { lng: 115.650555, lat: 38.534983 },
+        { lng: 116.432045, lat: 39.910683 },
+        { lng: 120.129721, lat: 30.314429 },
+      ],
     })
   }
-  handleCenter = () => {
+  handleColor = () => {
     this.setState({
-      center: {
-        lng: 120.21937542,
-        lat: 30.25924446, 
-      }
+      strokeColor: 'red'
     })
   }
-  handleZIndex = () => {
+  handleWeight = () => {
     this.setState({
-      zIndex:-1,
+      strokeWeight: 1,
+    })
+  }
+  handleOpacity = () => {
+    this.setState({
+      strokeOpacity: 1,
+    })
+  }
+  dontClear = () =>{
+    this.setState({
+      massClear: false,
     })
   }
   render() {
-    const { zoom, center, zIndex,copyright } = this.state;
+    const { zoom, center, points, strokeColor, strokeWeight, strokeOpacity, events } = this.state;
     return (
-      <div style={{ height: 400 }}>
+      <div style={{ height: '80%' }}>
         <Map 
           ak="dbLUj1nQTvDvKXkov5fhnH5HIE88RUEO"
           scrollWheelZoom
-          center={center}
           zoom={zoom}
+          center={center}
          >
-         <Tile
-         transparentPng
-         copyright = {this.copyright}
-         getTilesUrl = {this.getTilesUrl}
-         zIndex = {zIndex}
-          /> 
-         </Map>
-        <button onClick={this.handleZoom}>改变zoom</button>
-        <button onClick={this.handleCenter}>改变center</button>
-        <button onClick={this.handleZIndex}>改变zIndex</button>
+          <CurveLine 
+            points={points}
+            strokeColor={strokeColor}
+            strokeWeight={strokeWeight}
+            strokeOpacity={strokeOpacity}
+            editing
+            events={events}
+          />
+        </Map>
+        <button onClick={this.handlePoints}>改变points</button>
+        <button onClick={this.handleColor}>改变颜色</button>
+        <button onClick={this.handleWeight}>改变线条宽度</button>
+        <button onClick={this.handleOpacity}>改变透明度</button>
+        <button onClick={this.dontClear}>不清除</button>
 
       </div>
     );

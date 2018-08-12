@@ -89,5 +89,3 @@ class App extends Component {
 }
 
 ReactDOM.render(<App />, document.getElementById('root'));
-
-//DrawingManager改变停靠位置或者偏移位置，原来位置的控件不消失

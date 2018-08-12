@@ -1,6 +1,7 @@
 import React,{Component} from 'react';
 import ReactDOM from 'react-dom';
-import { Map, Tile, ControlAnchor } from 'rc-bmap';
+import { Map, Tile } from 'rc-bmap';
+import './style.css'
 
 class App extends Component {
   constructor(props){
@@ -11,20 +12,6 @@ class App extends Component {
         center: {
           lng: 116.332782,
           lat: 40.007978,
-        },
-        copyright: {
-           anchor: ControlAnchor.BOTTOM_RIGHT,
-           content: 'xxxxxx版权信息', 
-          /*  bounds: {
-            ne: {
-              lng: 116.027143, 
-              lat: 39.772348,
-            },
-            sw: {
-              lng: 116.832025,
-              lat: 40.126349,
-            },
-          } */
         },
     }
   }
@@ -38,6 +25,7 @@ class App extends Component {
     this.setState({
       zoom:14,
     })
+    
   }
   handleCenter = () => {
     this.setState({
@@ -46,6 +34,7 @@ class App extends Component {
         lat: 30.25924446, 
       }
     })
+    this.getTilesUrl()
   }
   handleZIndex = () => {
     this.setState({
@@ -54,9 +43,8 @@ class App extends Component {
   }
   render() {
     const { zoom, center, zIndex, copyright } = this.state;
-    console.log(zIndex)
     return (
-      <div style={{ height: 400 }}>
+      <div style={{ height: "80%" }}>
         <Map 
           ak="dbLUj1nQTvDvKXkov5fhnH5HIE88RUEO"
           scrollWheelZoom
@@ -64,7 +52,6 @@ class App extends Component {
           zoom={zoom}
          >
          <Tile
-         transparentPng
          copyright = {copyright}
          getTilesUrl = {this.getTilesUrl}
          zIndex = {zIndex}

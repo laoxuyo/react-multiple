@@ -20,7 +20,7 @@ class App extends Component {
   render() {
     const { anchor } = this.state;
     return (
-      <div style={{ height: "80" }}>
+      <div style={{ height: "80%" }}>
         <Map 
           ak="dbLUj1nQTvDvKXkov5fhnH5HIE88RUEO"
           scrollWheelZoom

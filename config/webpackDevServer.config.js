@@ -87,6 +87,12 @@ module.exports = function(proxy, allowedHost) {
         { from: /^\/trafficControl.html/, to: '/build/trafficControl.html' },
         { from: /^\/heatmap.html/, to: '/build/heatmap.html' },
         { from: /^\/drawingManager.html/, to: '/build/drawingManager.html' },
+        { from: /^\/markerClusterer.html/, to: '/build/markerClusterer.html' },
+        { from: /^\/busLineSearch.html/, to: '/build/busLineSearch.html' },
+        { from: /^\/localSearch.html/, to: '/build/localSearch.html' },
+        { from: /^\/walkingRoute.html/, to: '/build/walkingRoute.html' },
+        { from: /^\/ridingRoute.html/, to: '/build/ridingRoute.html' },
+        { from: /^\/drivingRoute.html/, to: '/build/drivingRoute.html' },
 
       ]
     },

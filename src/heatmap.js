@@ -100,30 +100,72 @@ class App extends Component {
             {"lng":116.42076,"lat":39.915251,"count":70},
             {"lng":116.425867,"lat":39.918989,"count":8},
           ],
-        opacity: 0.5,
+        opacity: 100,
         max: 100,
-        radius: 50,
-        gradient: {5:'rgb(0, 110, 255)',.8:'rgb(100, 0, 255)'}
+        radius: 20,
+        center:{
+          lng:116.418261, 
+          lat: 39.921984
+        }
     }
   }
-
+  handlePoint = () => {
+    this.setState({
+      points: [
+        {"lng":116.418261,"lat":39.921984,"count":50},
+        {"lng":116.423332,"lat":39.916532,"count":51},
+        {"lng":116.419787,"lat":39.930658,"count":15},
+        {"lng":116.418455,"lat":39.920921,"count":40},
+      ]
+    })
+  }
+  handleRadius = () => {
+    this.setState({
+      radius: 50
+    })
+  }
+  handleOpacity = () => {
+    this.setState({
+      opacity: 50,
+    })
+  }
+  handleMax = () => {
+    this.setState({
+      max: 50
+    })
+  }
+  handleGradient = () => {
+    this.setState({
+      gradient: {
+        .2:'#EE00EE',
+        .5:'rgb(255,255,0)',
+        .8:'red'
+      },
+    })
+  }
   
   render() {
-    const { points, radius, max, gradient } = this.state;
+    const { points, radius, max, gradient, center, opacity } = this.state;
     return (
       <div style={{ height: "80%" }}>
         <Map 
           ak="dbLUj1nQTvDvKXkov5fhnH5HIE88RUEO"
           scrollWheelZoom
+          center={center}
          >
            <Heatmap 
              points={points}
              radius={radius}
              max={max}
+             opacity={opacity}
              gradient={gradient}
             />
          </Map>
-        <button onClick={this.handleAchor}>改变停靠位置</button>
+        <button onClick={this.handlePoint}>改变热力图区间</button>
+        <button onClick={this.handleRadius}>改变热力图半径</button>
+        <button onClick={this.handleOpacity}>改变透明度</button>
+        <button onClick={this.handleMax}>改变权重最大值</button>
+        <button onClick={this.handleGradient}>改变渐变区间</button>
       </div>
     );
   }

@@ -5529,9 +5529,9 @@ raw-body@2.3.2:
     iconv-lite "0.4.19"
     unpipe "1.0.0"
 
-rc-bmap@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/rc-bmap/-/rc-bmap-0.1.0.tgz#5dce576008b4ad3b7e2c06c958dd575482f9cd81"
+rc-bmap@^0.1.1:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/rc-bmap/-/rc-bmap-0.1.2.tgz#480f8b3b4ee436d42b9e5e817c8bf2a457cd1b57"
   dependencies:
     bmaplib.curveline "^1.0.0"
     bmaplib.heatmap "^1.0.4"
