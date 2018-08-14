@@ -93,7 +93,15 @@ module.exports = function(proxy, allowedHost) {
         { from: /^\/walkingRoute.html/, to: '/build/walkingRoute.html' },
         { from: /^\/ridingRoute.html/, to: '/build/ridingRoute.html' },
         { from: /^\/drivingRoute.html/, to: '/build/drivingRoute.html' },
-
+        { from: /^\/transitRoute.html/, to: '/build/transitRoute.html' },
+        { from: /^\/navigation.html/, to: '/build/navigation.html' },
+        { from: /^\/geolocation.html/, to: '/build/geolocation.html' },
+        { from: /^\/overviewMap.html/, to: '/build/overviewMap.html' },
+        { from: /^\/scale.html/, to: '/build/scale.html' },
+        { from: /^\/copyright.html/, to: '/build/copyright.html' },
+        { from: /^\/mapTypeCtrl.html/, to: '/build/mapTypeCtrl.html' },
+        { from: /^\/panorama.html/, to: '/build/panorama.html' },
+        { from: /^\/cityList.html/, to: '/build/cityList.html' },
       ]
     },
     public: allowedHost,

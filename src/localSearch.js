@@ -12,7 +12,6 @@ class App extends Component {
         lng: 120.21937542,
         lat: 30.25924446, 
       },
-      // location: "杭州市江干区",
       pageCapacity: 5,
     }
   }
@@ -39,19 +38,8 @@ class App extends Component {
     console.log(result)
   }
  
-  handleLocation = () => {
-    this.setState({
-      location: '上海市'
-    })
-  }
-  handlePage = () => {
-    this.setState({
-      pageCapacity: 2
-    })
-  }
- 
   render() {
-    const { location, center, pageCapacity} = this.state;
+    const { center, pageCapacity} = this.state;
     return (
       <div style={{ height: "80%" }}>
         <Map 
@@ -62,7 +50,6 @@ class App extends Component {
          >
           <LocalSearch 
             getInstance={this.getRoute} 
-            location={location}
             showInMap
             pageCapacity={pageCapacity}
             onInfoHtmlSet={this.onInfoHtmlSet}//标注气泡创建后的回调函数
@@ -71,15 +58,9 @@ class App extends Component {
             onMarkersSet={this.onMarkersSet}//标注添加完成后的回调函数
         />
          </Map>
-        <button onClick={this.handleLocation}>改变查询区域、地点</button>
-        <button onClick={this.handlePage}>改变每页显示数量</button>
-
       </div>
     );
   }
 }
 
 ReactDOM.render(<App />, document.getElementById('root'));
-
-//不知道怎么改变搜索信息
-//设置location不显示搜索结果

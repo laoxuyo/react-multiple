@@ -6,25 +6,22 @@ import './style.css'
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      route: "",
-      location: "上海",
-    }
+    this.route;
   }
 
   getRoute = (instance) => {
-    this.state.route = instance;
+    this.route = instance;
   };
 
   mapMounted = (map) => {
-    this.state.route.getBusList(338);
+    this.route.getBusList(338);
   };
 
   onGetBusListComplete = (result) => {
     if (result) {
       // 获取第一个公交列表显示到map上
       const fstLine = result.getBusListItem(0);
-      this.state.route.getBusLine(fstLine);
+      this.route.getBusLine(fstLine);
     }
   }
 
@@ -48,15 +45,9 @@ class App extends Component {
     console.log('onPolylinesSet')
     console.log(result)
   }
-  handleLocation = () => {
-    this.setState({
-      location: '杭州'
-    })
-  }
+
  
   render() {
-    const { location} = this.state;
-    console.log(location)
     return (
       <div style={{ height: "80%" }}>
         <Map 
@@ -66,7 +57,6 @@ class App extends Component {
          >
           <BusLineSearch 
             getInstance={this.getRoute} 
-            location={location}
             showInMap
             onGetBusListComplete={this.onGetBusListComplete}//公交列表查询后的回调函数
             onGetBusLineComplete={this.onGetBusLineComplete}//公交线路查询后的回调函数
@@ -76,13 +66,9 @@ class App extends Component {
             onMarkersSet={this.onMarkersSet}//添加公交站点时
         />
          </Map>
-        <button onClick={this.handleLocation}>改变查询区域、地点</button>
       </div>
     );
   }
 }
 
 ReactDOM.render(<App />, document.getElementById('root'));
-
-//不知道怎么改变公交车
-//改变location不变
