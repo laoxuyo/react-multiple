@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 ReactDOM.render(
 	<div>
-		<h1>index</h1>
+		<h1>admin</h1>
 		<ul>
 			<li>
 				<a href='/index.html'>index</a>

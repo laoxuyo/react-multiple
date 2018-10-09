@@ -12,7 +12,7 @@ const eslintFormatter = require('react-dev-utils/eslintFormatter');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const paths = require('./paths');
 const getClientEnvironment = require('./env');
-
+const glob = require('glob');
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
 const publicPath = paths.servedPath;
@@ -45,31 +45,19 @@ const extractTextPluginOptions = shouldUseRelativeAssetPaths
   ? // Making sure that the publicPath goes back to to build folder.
   { publicPath: Array(cssFilename.split('/').length).join('../') }
   : {};
+let jsEntries = getEntry('./src/*.js');
 
 // This is the production configuration.
 // It compiles slowly and is focused on producing a fast and minimal bundle.
 // The development configuration is different and lives in a separate file.
-module.exports = {
+let config = {
   // Don't attempt to continue if there are any errors.
   bail: true,
   // We generate sourcemaps in production. This is slow but gives good results.
   // You can exclude the *.map files from the build during deployment.
   devtool: shouldUseSourceMap ? 'source-map' : false,
-  // In production, we only want to load the polyfills and the app code.
-  entry: {
-    index: [
-      require.resolve('./polyfills'),
-      paths.appIndexJs
-    ],
-    admin: [
-      require.resolve('./polyfills'),
-      paths.appSrc + '/admin.js'
-    ],
-    navigation: [
-      require.resolve('./polyfills'),
-      paths.appSrc + '/navigation.js'
-    ]
-  },
+
+	entry:jsEntries,
   output: {
     // The build folder.
     path: paths.appBuild,
@@ -290,24 +278,6 @@ module.exports = {
         minifyURLs: true,
       }
     }),
-    new HtmlWebpackPlugin({
-      inject: true,
-      chunks:["navigation"],
-      template: paths.appHtml,
-      filename:'navigation.html',
-      minify: {
-        removeComments: true,
-        collapseWhitespace: true,
-        removeRedundantAttributes: true,
-        useShortDoctype: true,
-        removeEmptyAttributes: true,
-        removeStyleLinkTypeAttributes: true,
-        keepClosingSlash: true,
-        minifyJS: true,
-        minifyCSS: true,
-        minifyURLs: true,
-      }
-    }),
     // Makes some environment variables available to the JS code, for example:
     // if (process.env.NODE_ENV === 'production') { ... }. See `./env.js`.
     // It is absolutely essential that NODE_ENV was set to production here.
@@ -391,3 +361,38 @@ module.exports = {
     child_process: 'empty',
   },
 };
+
+
+let tplPages = Object.keys(jsEntries);
+tplPages.forEach((pathname)=> {
+	let conf = {
+		inject: true,
+		chunks: [pathname],
+		template: paths.appHtml,
+		filename: pathname+'.html',
+	};
+	//生成配置压栈
+	config.plugins.push(new HtmlWebpackPlugin(conf));
+});
+
+module.exports = config;
+function getEntry(globPath) {
+	//获取globPath路径下的所有文件
+	let files = glob.sync(globPath);
+	let entries = {},
+		entry, basename, extname;
+	//循环
+	for (let i = 0; i < files.length; i++) {
+		entry = files[i];
+		extname = path.extname(entry);//返回指定文件名的扩展名称,.js
+		/**
+       * path.basename(p, [ext])
+       * 返回指定的文件名，返回结果可排除[ext]后缀字符串
+       * path.basename('/foo/bar/baz/asdf/quux.html', '.html')=>quux
+       */
+		basename = path.basename(entry, extname);//index等
+		entries[basename] = entry;//{ admin: './src/admin.js', index: './src/index.js' }
+	}
+	return entries;
+
+}
